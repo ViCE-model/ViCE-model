@@ -1,0 +1,91 @@
+datasets:
+    a2d2:
+        root_path: "/data/group1/z44406a/datasets/a2d2"
+        use: False
+    apollo_daoxianglake:
+        root_path: "/data/group1/z44406a/datasets/apollo_daoxianglake"
+        use: False
+    apolloscape:
+        root_path: "/data/group1/z44406a/datasets/apolloscape"
+        use: False
+    argoverse:
+        root_path: "/data/group1/z44406a/datasets/argoverse"
+        use: False
+    bdd100k:
+        root_path: "/data/group1/z44406a/datasets/bdd100k"
+        use: False
+    boxy:
+        root_path: "/data/group1/z44406a/datasets/boxy"
+        use: False
+    cadc:
+        root_path: "/data/group1/z44406a/datasets/cadc"
+        use: False
+    cityscapes:
+        root_path: "/data/group1/z44406a/datasets/cityscapes"
+        use: False
+    coco:
+        root_path: "datasets/coco"
+        use: True
+    comma2k19:
+        root_path: "/data/group1/z44406a/datasets/comma2k19"
+        use: False
+    ddad:
+        root_path: "/data/group1/z44406a/datasets/ddad"
+        use: False
+    ecp:
+        root_path: "/data/group1/z44406a/datasets/ecp"
+        use: False
+    global_road_damage_detection:
+        root_path: "/data/group1/z44406a/datasets/global_road_damage_detection"
+        use: False
+    gta5:
+        root_path: "/data/group1/z44406a/datasets/gta5"
+        use: False
+    h3d:
+        root_path: "/data/group1/z44406a/datasets/honda_h3d"
+        use: False
+    hdd:
+        root_path: "/data/group1/z44406a/datasets/honda_hdd"
+        use: False
+    hevi:
+        root_path: "/data/group1/z44406a/datasets/honda_hevi"
+        use: False
+    honda_hsd:
+        root_path: "/data/group1/z44406a/datasets/honda_hsd"
+        use: False
+    honda_had:
+        root_path: "/data/group1/z44406a/datasets/honda_research_institute_advice_dataset"
+        use: False
+    honda_titan:
+        root_path: "/data/group1/z44406a/datasets/honda_titan_dataset"
+        use: False
+    idd:
+        root_path: "/data/group1/z44406a/datasets/idd"
+        use: False
+    imagenet:
+        root_path: "/data/group1/z44406a/datasets/imagenet"
+        use: False
+    kitti:
+        root_path: "/data/group1/z44406a/datasets/kitti"
+        use: False
+    lyft_perception:
+        root_path: "/data/group1/z44406a/datasets/lyft_perception"
+        use: False
+    mapillary_vistas:
+        root_path: "/data/group1/z44406a/datasets/mapillary_vistas"
+        use: False
+    nuimages:
+        root_path: "/data/group1/z44406a/datasets/nuimages"
+        use: False
+    nuscenes:
+        root_path: "/data/group1/z44406a/datasets/NUSCENES"
+        use: False
+    pandaset:
+        root_path: "/data/group1/z44406a/datasets/pandaset"
+        use: False
+    tusimple:
+        root_path: "/data/group1/z44406a/datasets/tusimple"
+        use: False
+    waymo:
+        root_path: "/data/group1/z44406a/datasets/waymo_open"
+        use: False
