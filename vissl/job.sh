@@ -12,7 +12,8 @@ module load cudnn/8.1.1
 module load nccl/2.8.4
 module load openmpi_cuda/4.0.5
 
-source /home/z44406a/.pyenv/versions/vissl/bin/activate
+# Replace YOUR-USERNAME
+source /home/YOUR-USERNAME/.pyenv/versions/vissl/bin/activate
 
 # distributed setting
 
@@ -29,4 +30,5 @@ mpirun \
     -mca btl_tcp_if_include ib0 \
     -mca plm_rsh_agent /bin/pjrsh \
     -machinefile ${PJM_O_NODEINF} \
-    /home/z44406a/projects/vissl/distributed_train.sh
+    # Replace YOUR-USERNAME
+    /home/YOUR-USERNAME/projects/vissl/distributed_train.sh

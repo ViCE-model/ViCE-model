@@ -11,7 +11,8 @@ module load cudnn/8.1.1
 module load nccl/2.8.4
 module load openmpi_cuda/4.0.5
 
-source /home/z44406a/.pyenv/versions/vissl/bin/activate
+# Replace YOUR-USERNAME
+source /home/YOUR-USERNAME/.pyenv/versions/vissl/bin/activate
 
 # https://github.com/pytorch/pytorch/issues/37377
 export MKL_THREADING_LAYER=GNU
@@ -26,6 +27,8 @@ echo "MASTER_ADDR=${MASTER_ADDR}"
 echo "NODE_RANK=${NODE_RANK}"
 
 python tools/run_distributed_engines.py \
+    # Either vice_8node_resnet_coco_exp27.yaml for COCO
+    # or vice_8node_resnet_road_exp31.yaml for road scene training
     config=pretrain/vice/vice_8node_resnet_coco_exp27.yaml \
     config.DISTRIBUTED.RUN_ID="${MASTER_ADDR}":29500 \
     node_id="${NODE_RANK}"
