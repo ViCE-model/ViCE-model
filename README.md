@@ -2,6 +2,24 @@
 
 This repository contain code to reproduce results in the paper "ViCE: Self-Supervised Visual Concept Embeddings as Contextual and Pixel Appearance Invariant Semantic Representations". We provide instructions for running training and benchmark experiments.
 
+## Summary
+
+* Installation
+    * VISSL
+    * MMSegmentation
+* Setup datasets
+    * COCO-Stuff164K for training
+    * Coarse COCO-Stuff164K for benchmarking
+    * Cityscapes for benchmarking
+* Download pretrained models
+* Run experiments
+    * Example 1: COCO model training demo w. 1 GPU
+    * Example 2: COCO representation quality linear model training
+    * Example 3: COCO benchmark with pretrained ViCE and linear models
+    * Example 4: Cityscapes benchmark with pretrained ViCE and linear models
+    * Example 5: COCO model training w. 32 GPUs
+
+
 ## 1. Requirements
 
 * Python 3.8
@@ -163,7 +181,7 @@ cityscapes/
 python tools/convert_datasets/cityscapes.py data/cityscapes --nproc 8
 ```
 
-## Pretrained models
+## 4. Pretrained models
 
 
 ## Usage
