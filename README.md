@@ -5,19 +5,19 @@ This repository contain code to reproduce results in the paper "ViCE: Self-Super
 ## Summary
 
 * Installation
-    * VISSL
-    * MMSegmentation
+    * [VISSL](###-2.1:-install-vissl)
+    * [MMSegmentation](###-2.2:-install-mmsegmentation)
 * Setup datasets
-    * COCO-Stuff164K for training
-    * Coarse COCO-Stuff164K for benchmarking
-    * Cityscapes for benchmarking
-* Download pretrained models
+    * [COCO-Stuff164K for training](###-3.1:-coco-stuff164k)
+    * [Coarse COCO-Stuff164K for benchmarking](###-3.2:-coarse-coco-stuff164k-for-benchmarking)
+    * [Cityscapes for benchmarking](###-3.3-cityscapes-for-benchmarking)
+* [Download pretrained models](###-4.1-vice-models)
 * Run experiments
-    * Example 1: COCO model training demo w. 1 GPU
-    * Example 2: COCO representation quality linear model training
-    * Example 3: COCO benchmark with pretrained ViCE and linear models
-    * Example 4: Cityscapes benchmark with pretrained ViCE and linear models
-    * Example 5: COCO model training w. 32 GPUs
+    * [Example 1: COCO ViCE model training (1 GPU)](###-example-1:-coco-vice-model-training-(1-GPU))
+    * [Example 2: COCO linear model training (pretrained ViCE model)](###-example-2:-coco-linear-model-training-(pretrained-vice-model))
+    * [Example 3: COCO evaluation (pretrained ViCE, linear model)](###-example-3:-coco-evaluation-(pretrained-vice-,-linear-model))
+    * [Example 4: Cityscapes evaluation (pretrained ViCE, linear model)](###-example-4:-cityscapes-evaluation-(pretrained-vice-,-linear-model))
+    * [Example 5: COCO ViCE model training (32 GPUs)](###-example-5:-coco-vice-model-training-(32-GPUs))
 
 
 ## 1. Requirements
@@ -95,7 +95,7 @@ coco_stuff164k/
 2. Inside the `VISSL/datasets` directory, symbolically link a path to the COCO dataset `images` directory.
 
 ```coco_symlink
-ln -s PATH-TO-YOUR-coco_stuff164k/images vissl/datasets/coco
+$ ln -s PATH-TO-YOUR-coco_stuff164k/images vissl/datasets/coco
 ```
 
 3. Make sure that `vissl/extra_scripts/datasets/dataset_config.yaml` is setup to parse the COCO dataset (default configuration), with the entry for `coco` as bellow and all other entries set to `False`.
@@ -119,8 +119,8 @@ python extra_scripts/datasets/gen_dataset_filelist.py extra_scripts/datasets/dat
 2. Run `coco_stuff164k_coarse.py` to create the coarse COCO-Stuff164K dataset corresponding to the samples specified in `curated/train2017/Coco164kFull_Stuff_Coarse_7.txt` and `curated/val2017/Coco164kFull_Stuff_Coarse_7.txt`. Set `--nproc N` to as many threads your CPU have.
 
 ```
-cd mmsegmentation/
-python tools/convert_datasets/coco_stuff164k_coarse.py PATH-TO-YOUR-coco_stuff164k --nproc 4
+$ cd mmsegmentation/
+$ python tools/convert_datasets/coco_stuff164k_coarse.py PATH-TO-YOUR-coco_stuff164k --nproc 4
 ```
 
 The above script first generates new coarse GT label maps with 27 classes and stored in the same annotation folder as the original GT label map. Finally two new directories `annotations_coarse` and `images_coarse` are created with symbolic links to the previously generated GT label maps and corresponding RGB images.
@@ -145,20 +145,26 @@ All COCO benchmark training runs are configured to read samples from `annotation
 3. Finally create a symbolic link to the COCO-Stuff164K dataset in MMSegmentation's `data` directory.
 
 ```
-mkdir data
-cd data/
-ln -s PATH-TO-YOUR-coco_stuff164k/ coco_stuff164k_coarse
+$ mkdir data
+$ cd data/
+$ ln -s PATH-TO-YOUR-coco_stuff164k/ coco_stuff164k_coarse
 ```
 
 4. Return back to the ViCE-model root directory
 
 ```
-cd ../../
+$ cd ../../
 ```
 
 ### 3.3 Cityscapes for benchmarking
 
 1. Download and setup Cityscapes following instructions [MMSegmentation documentation](https://mmsegmentation.readthedocs.io/en/latest/dataset_prepare.html#cityscapes)
+
+2. Remember to create the symbolic link inside `mmsegmentation/data/` 
+
+```
+$ ln -s PATH-TO-YOUR-cityscapes/ cityscapes
+```
 
 Expected vanilla dataset directory structure
 
@@ -183,31 +189,61 @@ python tools/convert_datasets/cityscapes.py data/cityscapes --nproc 8
 
 ## 4. Pretrained models
 
+### 4.1 ViCE models
+
+Please download the following pretrained models and configuration files to the specfied directory.
+
+1. ViCE model trained on COCO
+
+* Download [model_final_checkpoint_phase11.torch](https://drive.google.com/file/d/1oe6fkDfIFvoczIEsoym6vWm_8MQkoTlO/view?usp=sharing) ==> `ViCE-model/vissl/pretrained/exp27_coco/`
+* Training log: `log.txt`
+<!-- * [vice_8node_resnet_coco_exp27.yaml](https://drive.google.com/file/d/1WYzyzbWdjINszgUn2O9aX1FA1aZC6IiD/view?usp=sharing) ==> `ViCE-model/vissl/pretrained/exp27_coco/` -->
+
+2. ViCE model trained on road scenes
+
+* Download [model_final_checkpoint_phase1.torch](https://drive.google.com/file/d/1oe6fkDfIFvoczIEsoym6vWm_8MQkoTlO/view?usp=sharing) ==> `ViCE-model/vissl/pretrained/exp31_road/`
+* Training log: `log.txt`
+<!-- * [vice_8node_resnet_coco_exp27.yaml](https://drive.google.com/file/d/1WYzyzbWdjINszgUn2O9aX1FA1aZC6IiD/view?usp=sharing) ==> `ViCE-model/vissl/pretrained/exp31_road/` -->
+
+### 4.2 Linear evaluation models
+
+The linear evaluation models for COCO and Cityscapes are included as part of the repository.
+
+1. Linear COCO model (for use with ViCE model `exp27_coco`)
+
+* Directory: `ViCE-model/mmsegmentation/pretrained/fcn_linear_coco-stuff164k_vissl_sc_exp27_ep12_max/`
+* Training log: `20211110_214004.txt`
+
+2. Linear Cityscapes model (for use with ViCE model `exp31_road`)
+
+* Directory: `ViCE-model/mmsegmentation/pretrained/fcn_linear_cityscapes_vissl_sc_exp31_ep2_max/`
+* Training log: `20211111_143137.txt`
+
 
 ## Usage
 
-### Example 1: COCO model training demo w. 1 GPU
+### Example 1: COCO ViCE model training (1 GPU)
 
-1. Set up COCO-Stuff164K dataset (see 2.3.1: COCO-Stuff164K).
+Run the following command from the VISSL directory `ViCE-model/vissl/`.
 
-2. Make sure your terminal is in the VISSL directory (i.e. ViCE-model/vissl/).
+```
+$ python tools/run_distributed_engines.py config=pretrain/vice/vice_1gpu_resnet_coco_demo.yaml
+```
 
-3. Run training demo config.
+If the frameworks and dataset
 
-python tools/run_distributed_engines.py config=pretrain/vice/vice_1gpu_resnet_coco_demo.yaml
-
-### Example 2: COCO representation quality linear model training
+### Example 2: COCO linear model training (pretrained ViCE model)
 
 First make sure you are in the MMSegmentation directory
 
 ```
-cd mmsegmentation/
+$ cd mmsegmentation/
 ```
 
 Run the following command to reproduce the COCO linear model using the supplied pretrained ViCE model. Note that the following setup is configured to run on  a node with 8 A6000 GPUs.
 
 ```
-./tools/dist_train.sh tools/train.py configs/fcn_linear_500x500x10k_coco-stuff164k_exp27.py 8 --work-dir EXPERIMENT_DIR_NAME
+$ ./tools/dist_train.sh tools/train.py configs/fcn_linear_500x500x10k_coco-stuff164k_exp27.py 8 --work-dir EXPERIMENT_DIR_NAME
 ```
 
 For systems with fewer GPUs and memory, please modify the configuration to match your system
@@ -223,20 +259,46 @@ data = dict(
 * Command to train the linear model on using a single GPU
 
 ```
-python tools/train.py configs/fcn_linear_500x500x10k_coco-stuff164k_exp27.py --work-dir EXPERIMENT_DIR_NAME
+$ python tools/train.py configs/fcn_linear_500x500x10k_coco-stuff164k_exp27.py --work-dir EXPERIMENT_DIR_NAME
 ```
 
-**TODO** Confirm configuration and run option for COCO and Cityscapes benchmark experiments !!!
-
-### Example 3: Run benchmark evaluation with pretrained ViCE and linear models
+### Example 3: COCO evaluation (pretrained ViCE, linear model)
 
 Run the following command to reproduce the benchmark evaluation score using the supplied pretrained ViCE and linear model.
 
 ```
-python tools/test.py configs/fcn_linear_500x500x10k_coco-stuff164k_exp27.py --eval mIoU
+$ python tools/test.py configs/fcn_linear_coco-stuff164k_exp27.py pretrained/fcn_linear_coco-stuff164k_vissl_sc_exp27_ep12_max/iter_12000.pth --eval mIoU
 ```
 
-### Example 2: Model training w. 32 GPUs
+If VISSL, MMSegmentation, the coarse COCO-Stuff164K dataset, and pretrained ViCE models are correctly setup, the following score will be outputted.
+
+```
++-------+-------+-------+
+|  aAcc |  mIoU |  mAcc |
++-------+-------+-------+
+| 65.47 | 27.71 | 37.18 |
++-------+-------+-------+
+```
+
+### Example 4: Cityscapes evaluation (pretrained ViCE, linear model)
+
+Run the following command to reproduce the benchmark evaluation score using the supplied pretrained ViCE and linear model.
+
+```
+python tools/test.py configs/fcn_linear_cityscapes_vissl_sc_exp31.py pretrained/fcn_linear_cityscapes_vissl_sc_exp31_ep2_max/iter_12000.pth --eval mIoU
+```
+
+If VISSL, MMSegmentation, the coarse COCO-Stuff164K dataset, and pretrained ViCE models are correctly setup, the following score will be outputted.
+
+```
++-------+-------+-------+
+|  aAcc |  mIoU |  mAcc |
++-------+-------+-------+
+| 85.51 | 28.83 | 34.72 |
++-------+-------+-------+
+```
+
+### Example 5: COCO ViCE model training (32 GPUs)
 
 We train our models on a supercomputer using a job scheduling system. Feel free to reference our setup while configuring the code to work on your system.
 

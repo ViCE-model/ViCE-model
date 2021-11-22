@@ -25,6 +25,7 @@ class EncoderDecoderVISSLFCN(BaseSegmentor):
                  decode_head,
                  train_cfg=None,
                  test_cfg=None,
+                 pretrained=None,
                  vissl_params=None,
                  init_cfg=None):
         super(EncoderDecoderVISSLFCN, self).__init__(init_cfg)
