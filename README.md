@@ -107,6 +107,8 @@ coco_stuff164k/
 
 ```coco_symlink
 $ cd vissl/
+$ mkdir datasets
+$ cd datasets/
 $ ln -s PATH-TO-YOUR-coco_stuff164k/images vissl/datasets/coco
 ```
 
@@ -126,7 +128,7 @@ $ python extra_scripts/datasets/gen_dataset_filelist.py extra_scripts/datasets/d
 
 ### 3.2: Coarse COCO-Stuff164K for evaluation
 
-1. Copy the directory named `curated` from the `ViCE-model/mmsegmentation/tools/convert_datasets/curated` directory into your COCO-Stuff164K directory root. The coarse label splits in `curated` are originally provided in the [IIC paper's GitHub repository](https://github.com/xu-ji/IIC/tree/master/datasets)
+1. Copy the directory named `curated` from the `ViCE-model/mmsegmentation/tools/convert_datasets/curated` directory into your COCO-Stuff164K directory root. The coarse label splits in `curated` were originally provided in the [IIC paper's GitHub repository](https://github.com/xu-ji/IIC/tree/master/datasets)
 
 2. Run `coco_stuff164k_coarse.py` to create the coarse COCO-Stuff164K dataset corresponding to the samples specified in `curated/train2017/Coco164kFull_Stuff_Coarse_7.txt` and `curated/val2017/Coco164kFull_Stuff_Coarse_7.txt`. Set `--nproc N` to as many threads your CPU have.
 
@@ -154,7 +156,7 @@ coco_stuff164k/
 
 All COCO benchmark training runs are configured to read samples from `annotations_coarse` and `images_coarse`.
 
-3. Finally create a symbolic link to the COCO-Stuff164K dataset in MMSegmentation's `data` directory.
+3. Finally create a symbolic link to the COCO-Stuff164K dataset inside the `mmsegmentation/data` directory.
 
 ```
 $ mkdir data
@@ -186,7 +188,7 @@ cityscapes/
         val/
 ```
 
-3. Also generate label maps following the above instructions provided by MMSementation. Make sure you run the following command from the `ViCE-model/mmsegmentation/` directory.
+3. Make sure to generate label maps following the above instructions provided by MMSementation. Make sure you run the following command from the `ViCE-model/mmsegmentation/` directory.
 
 ```
 # --nproc means 8 process for conversion, which could be omitted as well.
@@ -203,7 +205,7 @@ $ cd ../../
 
 ### 4.1 ViCE models
 
-Please download the following pretrained models and configuration files to the specfied directory.
+Download the following pretrained models and configuration files to the specfied directory.
 
 1. ViCE model trained on COCO
 
@@ -326,7 +328,7 @@ Representation quality performance of our model on coarse COCO-Stuff164K (Table 
 | PiCIE               | 14.77     | 54.75     |
 | ViCE (ours)         | **27.71** | **65.47** |
 
-Representation quality performance of our model on Cityscapes (Table 1. in the paper)
+Representation quality performance of our model on Cityscapes (Table 2. in the paper)
 
 | Embedding extractor | mIoU      | Acc.      |
 | ------------------- | --------- | --------- |
