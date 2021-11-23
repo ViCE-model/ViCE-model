@@ -21,6 +21,8 @@ This repository contain code to reproduce results in the paper "ViCE: Self-Super
 
 ## 1. Requirements
 
+Confirmed to work for Ubuntu 18.04 and 20.04.
+
 * Python 3.8
 * Pytorch 1.9.1
 * CUDA 11.1
@@ -120,7 +122,7 @@ coco:
     use: True
 ```
 
-3. Create `filelist_coco.npy` which specifies paths to training images for VISSL. Used datasets are specified in the `dataset_config.yaml` file. Codes for parsing datasets are provided in the `extra_scripts/datasets/dataset_parsers/` directory.
+4. Create `filelist_coco.npy` which specifies paths to training images for VISSL. Used datasets are specified in the `dataset_config.yaml` file. Codes for parsing datasets are provided in the `extra_scripts/datasets/dataset_parsers/` directory.
 
 ```
 $ python extra_scripts/datasets/gen_dataset_filelist.py extra_scripts/datasets/dataset_config.yaml --out-filename filelist_coco.npy
@@ -152,6 +154,10 @@ coco_stuff164k/
     curated/
     images/
     images_coarse/
+        train2017/
+            .jpg
+        val2017/
+            .jpg
 ```
 
 All COCO benchmark training runs are configured to read samples from `annotations_coarse` and `images_coarse`.
@@ -214,7 +220,7 @@ Download the following pretrained models and configuration files to the specfied
 
 2. ViCE model trained on road scenes
 
-* Download [model_final_checkpoint_phase1.torch](https://drive.google.com/file/d/1oe6fkDfIFvoczIEsoym6vWm_8MQkoTlO/view?usp=sharing) ==> `ViCE-model/vissl/pretrained/exp31_road/`
+* Download [model_final_checkpoint_phase1.torch](https://drive.google.com/file/d/14PlRUVvtn8nePLfdVcZHE7HO2063Mnlq/view?usp=sharing) ==> `ViCE-model/vissl/pretrained/exp31_road/`
 * Training log: `log.txt`
 
 ### 4.2 Linear evaluation models
