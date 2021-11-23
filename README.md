@@ -225,7 +225,7 @@ Download the following pretrained models and configuration files to the specfied
 
 ### 4.2 Linear evaluation models
 
-The linear evaluation models for COCO and Cityscapes are included as part of the repository.
+The linear evaluation models for COCO and Cityscapes are **included as part of the repository**.
 
 1. Linear COCO model (for use with ViCE model `exp27_coco`)
 
