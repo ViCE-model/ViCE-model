@@ -15,9 +15,10 @@ This repository contain code to reproduce results in the paper "ViCE: Self-Super
 * Run experiments
     * Example 1: COCO ViCE model training (1 GPU)
     * Example 2: COCO linear model training (w. pretrained ViCE model)
-    * Example 3: COCO evaluation (w. pretrained ViCE, linear model)
-    * Example 4: Cityscapes evaluation (w. pretrained ViCE, linear model)
-    * Example 5: COCO ViCE model training (32 GPUs)
+    * Example 3: Cityscapes linear model training (w. pretrained ViCE model)
+    * Example 4: COCO evaluation (w. pretrained ViCE, linear model)
+    * Example 5: Cityscapes evaluation (w. pretrained ViCE, linear model)
+    * Example 6: COCO ViCE model training (32 GPUs)
 
 ## 1. Requirements
 
@@ -35,6 +36,13 @@ First initialize an environment of your choice using Python 3.8.
 
 ```
 $ conda create -n vice python=3.8
+```
+
+Clone the git repository
+
+```
+git clone https://github.com/ViCE-model/ViCE-model.git
+cd ViCE-model/
 ```
 
 ### 2.1: Install VISSL
@@ -111,7 +119,8 @@ coco_stuff164k/
 $ cd vissl/
 $ mkdir datasets
 $ cd datasets/
-$ ln -s PATH-TO-YOUR-coco_stuff164k/images vissl/datasets/coco
+$ ln -s PATH-TO-YOUR-coco_stuff164k/images coco
+$ cd ../
 ```
 
 3. Make sure that `vissl/extra_scripts/datasets/dataset_config.yaml` is setup to parse the COCO dataset (default configuration), with the entry for `coco` as bellow and all other entries set to `False`.
@@ -126,6 +135,12 @@ coco:
 
 ```
 $ python extra_scripts/datasets/gen_dataset_filelist.py extra_scripts/datasets/dataset_config.yaml --out-filename filelist_coco.npy
+```
+
+Return to the `ViCE-model/` directory.
+
+```
+cd ../
 ```
 
 ### 3.2: Coarse COCO-Stuff164K for evaluation
@@ -178,6 +193,7 @@ $ ln -s PATH-TO-YOUR-coco_stuff164k/ coco_stuff164k_coarse
 
 ```
 $ ln -s PATH-TO-YOUR-cityscapes/ cityscapes
+$ cd ../
 ```
 
 Expected vanilla dataset directory structure
@@ -204,7 +220,7 @@ python tools/convert_datasets/cityscapes.py data/cityscapes --nproc 8
 4. Return back to the `ViCE-model/` root directory.
 
 ```
-$ cd ../../
+$ cd ../
 ```
 
 ## 4. Pretrained models
@@ -247,19 +263,50 @@ Run the following command from the `ViCE-model/vissl/` directory.
 $ python tools/run_distributed_engines.py config=pretrain/vice/vice_1gpu_resnet_coco_demo.yaml
 ```
 
+If you get the error `AttributeError: module 'cv2' has no attribute 'ximgproc'` try reinstalling OpenCV.
+
+```
+$ pip uninstall opencv-contrib-python opencv-python
+$ pip install opencv-contrib-python
+```
+
 The single GPU experiment is provided for demonstration purposes only. The resulting model is not expected to result in a high-performance model. See the 32 GPU experiment example bellow for how to reproduce the provided pretrained ViCE models.
 
-### Example 2: COCO linear model training (pretrained ViCE model)
+### Example 2: COCO linear model training (w. pretrained ViCE model)
 
-Run the following command from the `ViCE-modelmmsegmentation/` directory to reproduce the COCO linear evaluation model using the provided pretrained ViCE model. Note that the following setup is configured to run on a node with 8 A6000 GPUs.
+Run the following command from the `ViCE-modelmmsegmentation/` directory to reproduce the COCO linear evaluation model using the provided pretrained ViCE model. Note that the following setup is configured to run on a node with 8x A6000 48GB GPUs.
 
 ```
-$ ./tools/dist_train.sh tools/train.py configs/fcn_linear_coco-stuff164k_exp27.py 8 --work-dir YOUR-EXPERIMENT_DIR_NAME
+$ GPUS=8 ./tools/slurm_train.sh ubuntu jesko fcn configs/fcn_linear_coco-stuff164k_exp27.py --work-dir YOUR-EXPERIMENT_DIR_NAME
 ```
 
-For systems with fewer GPUs and memory, please modify the configuration to match your system
+For systems with fewer GPUs, memory, or different configuration, please modify the configuration to match your system by following the [MMSegmentation multi-GPU training documentation](https://mmsegmentation.readthedocs.io/en/latest/train.html#train-with-multiple-gpus)
 
-* Reduce samples per GPU if your run out of memory
+* Reduce samples per GPU if your run out of memory in the following configuration file `mmsegmentation/configs/_base_/datasets/coco-stuff164k_coarse.py`.
+
+```
+data = dict(
+    samples_per_gpu=16, # <-- Lower
+    workers_per_gpu=4,
+```
+
+* Command to train the linear model on using a single GPU
+
+```
+$ python tools/train.py configs/fcn_linear_coco-stuff164k_exp27.py --work-dir YOUR-EXPERIMENT_DIR_NAME
+```
+
+### Example 3: Cityscapes linear model training (w. pretrained ViCE model)
+
+Run the following command from the `ViCE-modelmmsegmentation/` directory to reproduce the Cityscapes linear evaluation model using the provided pretrained ViCE model. Note that the following setup is configured to run on a node with 8x A6000 48GB GPUs.
+
+```
+$ GPUS=8 ./tools/slurm_train.sh ubuntu jesko fcn configs/fcn_linear_cityscapes_vissl_sc_exp31.py --work-dir YOUR-EXPERIMENT_DIR_NAME
+```
+
+For systems with fewer GPUs, memory, or different configuration, please modify the configuration to match your system by following the [MMSegmentation multi-GPU training documentation](https://mmsegmentation.readthedocs.io/en/latest/train.html#train-with-multiple-gpus)
+
+* Reduce samples per GPU if your run out of memory in the following configuration file `mmsegmentation/configs/_base_/datasets/cityscapes_nocrop.py`.
 
 ```
 data = dict(
@@ -270,10 +317,10 @@ data = dict(
 * Command to train the linear model on using a single GPU
 
 ```
-$ python tools/train.py configs/fcn_linear_coco-stuff164k_exp27.py --work-dir YOUR-EXPERIMENT_DIR_NAME
+$ python tools/train.py configs/fcn_linear_cityscapes_vissl_sc_exp31.py --work-dir YOUR-EXPERIMENT_DIR_NAME
 ```
 
-### Example 3: COCO evaluation (pretrained ViCE, linear model)
+### Example 4: COCO evaluation (w. pretrained ViCE, linear model)
 
 Run the following command to reproduce the benchmark evaluation score using the provided pretrained ViCE and linear model.
 
@@ -291,7 +338,7 @@ If VISSL, MMSegmentation, the coarse COCO-Stuff164K dataset, and pretrained mode
 +-------+-------+-------+
 ```
 
-### Example 4: Cityscapes evaluation (pretrained ViCE, linear model)
+### Example 5: Cityscapes evaluation (w. pretrained ViCE, linear model)
 
 Run the following command to reproduce the benchmark evaluation score using the provided pretrained ViCE and linear model.
 
@@ -309,7 +356,7 @@ If VISSL, MMSegmentation, the coarse COCO-Stuff164K dataset, and pretrained mode
 +-------+-------+-------+
 ```
 
-### Example 5: COCO ViCE model training (32 GPUs)
+### Example 6: COCO ViCE model training (32 GPUs)
 
 We train our models on a supercomputer using a job scheduling system. Please reference our setup while configuring the code to work on your system.
 

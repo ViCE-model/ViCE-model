@@ -32,15 +32,13 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=4,
+    samples_per_gpu=16,  # NOTE: Configured for 8x A6000 48 GB GPUs
     workers_per_gpu=4,
     train=dict(
         type=dataset_type,
         data_root=data_root,
-        # img_dir='images_coarse/train2017',
-        # ann_dir='annotations_coarse/train2017',
-        img_dir='images_coarse/val2017',
-        ann_dir='annotations_coarse/val2017',
+        img_dir='images_coarse/train2017',
+        ann_dir='annotations_coarse/train2017',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
