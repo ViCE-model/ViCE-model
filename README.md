@@ -304,7 +304,7 @@ $ python tools/train.py configs/fcn_linear_coco-stuff164k_exp27.py --work-dir YO
 Run the following command from the `ViCE-modelmmsegmentation/` directory to reproduce the Cityscapes linear evaluation model using the provided pretrained ViCE model. Note that the following setup is configured to run on a node with 8x A6000 48GB GPUs.
 
 ```
-$ GPUS=8 ./tools/slurm_train.sh ubuntu jesko fcn configs/fcn_linear_cityscapes_vissl_sc_exp31.py --work-dir YOUR-EXPERIMENT_DIR_NAME
+$ GPUS=8 ./tools/slurm_train.sh ubuntu jesko fcn configs/fcn_linear_cityscapes_exp31.py --work-dir YOUR-EXPERIMENT_DIR_NAME
 ```
 
 For systems with fewer GPUs, memory, or different configuration, please modify the configuration to match your system by following the [MMSegmentation multi-GPU training documentation](https://mmsegmentation.readthedocs.io/en/latest/train.html#train-with-multiple-gpus)
@@ -320,7 +320,7 @@ data = dict(
 * Command to train the linear model on using a single GPU
 
 ```
-$ python tools/train.py configs/fcn_linear_cityscapes_vissl_sc_exp31.py --work-dir YOUR-EXPERIMENT_DIR_NAME
+$ python tools/train.py configs/fcn_linear_cityscapes_exp31.py --work-dir YOUR-EXPERIMENT_DIR_NAME
 ```
 
 ### Example 4: COCO evaluation (w. pretrained ViCE, linear model)
