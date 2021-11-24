@@ -346,7 +346,7 @@ If VISSL, MMSegmentation, the coarse COCO-Stuff164K dataset, and pretrained mode
 Run the following command to reproduce the benchmark evaluation score using the provided pretrained ViCE and linear model.
 
 ```
-python tools/test.py configs/fcn_linear_cityscapes_vissl_sc_exp31.py pretrained/fcn_linear_cityscapes_vissl_sc_exp31_ep2_max/iter_12000.pth --eval mIoU
+python tools/test.py configs/fcn_linear_cityscapes_exp31.py pretrained/fcn_linear_cityscapes_vissl_sc_exp31_ep2_max/iter_12000.pth --eval mIoU
 ```
 
 If VISSL, MMSegmentation, the coarse COCO-Stuff164K dataset, and pretrained models are correctly setup, the following score will be outputted.
