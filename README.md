@@ -32,10 +32,13 @@ Confirmed to work for Ubuntu 18.04 and 20.04.
 
 The training and evaluation code is implemented within two the frameworks VISSL and MMSegmentation. Follow the instructions bellow to install both frameworks with included modifications for running ViCE **using the code provided in this repository**.
 
-First initialize an environment of your choice using Python 3.8.
+First initialize an environment of your choice using Python 3.8. For example
 
 ```
 $ conda create -n vice python=3.8
+or
+$ pyenv virtualenv 3.8.10 vice
+$ source .pyenv/versions/vice/bin/activate
 ```
 
 Clone the git repository
